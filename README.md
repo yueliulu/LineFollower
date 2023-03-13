@@ -2,7 +2,7 @@
 COSI119 PA
 The code initialize a ROS node which allows the robot follows a distinct line on the ground. The line following is achieved by subscribing to /camera/rgb/image_raw topic through image_sub to distinguish the line, and publishing Twist() to cmd_vel topic through publisher cmd_vel_pub. 
 
-How Line Following Work
+How Line Following Work <br \>
 	For Image messages received by image_sub, the callback function for the subscriber image_callback will process the received message, update states of the robot, and publish desired Twist() to cmd_vel according to states of the robot. It first starts with converting the Image message to OpenCV image format and show it on screen using imshow() so that we can see from the robot’s perspective. Then the image is mapped from RGB to HSV space, which separates the image into color, color intensity, and brightness, so that we can create a binary image and easily filter out all colors other than yellow. If yellow is seen by the robot, we change the state of the robot to follow and the robot is expected to follow the yellow line. To follow the line, we calculate the centroid of 20-row portion of image (one meter in front of robot), and denote it with a red circle. And P-controller is implemented to calculate the desired angular velocity of the robot according to the distance between center of the image and centroid of the line so that the robot can move in a way that makes the centroid closer and closer to the center of the camera. The Twist is published to cmd_vel_pub so that robot can correctly follows the line. 
 
 Other Functions
